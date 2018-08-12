@@ -1,0 +1,59 @@
+buildscript {
+    ext.kotlin_version = '1.2.60'
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testImplementation("junit:junit:4.12") 
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/kotlin'
+    main.java.srcDirs += 'src/main/java'
+}
+
+// This tells gradle to execute src/test/kotlin/com/example/Hello.kt 
+// when 'gradle run' is entered on the command line at the root folder
+mainClassName = 'com.example.HelloKt'
+
+// This tells gradle to execute src/test/kotlin/com/example/Double.kt
+// when 'gradle getDouble' entered on the command line at the root folder 
+// If there are more than one args needed, enter them like this: args "one", "two", "3"
+// If the class name is Double.kt, it need to be specified as DoubleKt
+task getDouble(type: JavaExec) {
+  classpath sourceSets.main.runtimeClasspath
+  main = "com.example.DoubleKt"
+  args "5"
+}
+
+// Another task, just like the getDouble above
+task getSquare(type: JavaExec) {
+  classpath sourceSets.main.runtimeClasspath
+  main = "com.example.SquareKt"
+  args "5"
+}
+
+// Another task, just like the getDouble above
+task getRandom(type: JavaExec) {
+  classpath sourceSets.main.runtimeClasspath
+  main = "com.example.GetRandomKt"
+}
+
